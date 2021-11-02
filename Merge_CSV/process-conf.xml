@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="salesforceupsertprocess"
+        class="com.salesforce.dataloader.process.ProcessRunner"
+        scope="singleton">
+        <description>accountInsert job gets the account record from the CSV file 
+            and inserts it into Salesforce.</description>
+        <property name="name" value="salesforceupsertprocess"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.debugMessages" value="true"/>
+                <entry key="sfdc.debugMessagesFile" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\logs\salesforceupsertprocessSoapTrace.log"/>
+                <entry key="sfdc.endpoint" value="https://login.salesforce.com"/>
+                <entry key="sfdc.username" value="kurkool.u.dev@beryl8.com"/>
+                <!--Password below has been encrypted using key file, 
+                    therefore, it will not work without the key setting: 
+                    process.encryptionKeyFile.
+                    The password is not a valid encrypted value, 
+                    please generate the real value using the encrypt.bat utility -->
+                <entry key="sfdc.password" value="2da4fcc3d0cf0403f8164b9ad2b6eaa3d00d7fa52e8658065fe8d94c59398167fbf67997bfa5cc1479fcb5ae26aca6350da397980612c409c14607fa021c06fd"/>
+                <entry key="process.encryptionKeyFile" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\dataLoader.key"/>
+                <entry key="sfdc.timeoutSecs" value="600"/>
+                <entry key="sfdc.loadBatchSize" value="200"/>
+                <entry key="sfdc.entity" value="Account"/>
+                <entry key="process.operation" value="insert"/>
+                <entry key="process.mappingFile" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\accountInsertMap.sdl"/>
+                <entry key="dataAccess.name" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\out\MergeOutput.csv"/>
+                <entry key="process.outputSuccess" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\logs\accountInsert_success.csv"/>
+                <entry key="process.outputError" 
+                    value="C:\Users\BE8-KurkoolU\Desktop\Merge_CSV\logs\accountInsert_error.csv"/>
+                <entry key="dataAccess.type" value="csvRead"/>
+                <entry key="process.initialLastRunDate" 
+                    value="2005-12-01T00:00:00.000-0800"/>
+            </map>
+        </property>
+    </bean>
+</beans>
